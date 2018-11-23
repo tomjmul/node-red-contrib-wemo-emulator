@@ -24,7 +24,7 @@
 'use strict';
 
 module.exports = function(RED) {
-    const wemore = require('wemore'),
+    const WemoEmulator = require('./lib/WemoEmulator'),
         domain = require('domain'),
         _ = require('lodash');
 
@@ -63,49 +63,58 @@ module.exports = function(RED) {
         let connection = null;
         d.run(function() {
             // {friendlyName: "TV", port: 9001, serial: 'a unique id'}
-            connection = wemore
-                .Emulate(config)
-                .on('listening', function() {
-                    node.status({
-                        fill: 'yellow',
-                        shape: 'dot',
-                        text: `Listen on ${this.port}`
+
+            WemoEmulator.build(config.friendlyName).then(wemoEmulator => {
+                this.connection = wemoEmulator;
+                wemoEmulator
+                    .on('listening', function() {
+                        node.status({
+                            fill: 'yellow',
+                            shape: 'dot',
+                            text: `Listen on ${this.port}`
+                        });
+                        debug(`Listening on: ${this.port}`);
+                    })
+                    .on('on', function(self, sender) {
+                        node.send({
+                            topic: config.onTopic,
+                            payload: config.onPayload,
+                            sender: sender
+                        });
+                        node.status({
+                            fill: 'green',
+                            shape: 'dot',
+                            text: 'on'
+                        });
+                        debug('Turning on');
+                    })
+                    .on('off', function(self, sender) {
+                        node.send({
+                            topic: config.offTopic,
+                            payload: config.offPayload,
+                            sender: sender
+                        });
+                        node.status({
+                            fill: 'green',
+                            shape: 'circle',
+                            text: 'off'
+                        });
+                        debug('Turning off');
+                    })
+                    .on('close', function(self, sender) {
+                        node.status({
+                            fill: 'red',
+                            shape: 'circle',
+                            text: 'closed'
+                        });
+                        debug('Closed');
                     });
-                    debug(`Listening on: ${this.port}`);
-                })
-                .on('on', function(self, sender) {
-                    node.send({
-                        topic: config.onTopic,
-                        payload: config.onPayload,
-                        sender: sender
-                    });
-                    node.status({
-                        fill: 'green',
-                        shape: 'dot',
-                        text: 'on'
-                    });
-                    debug('Turning on');
-                })
-                .on('off', function(self, sender) {
-                    node.send({
-                        topic: config.offTopic,
-                        payload: config.offPayload,
-                        sender: sender
-                    });
-                    node.status({
-                        fill: 'green',
-                        shape: 'circle',
-                        text: 'off'
-                    });
-                    debug('Turning off');
-                });
+            });
         });
 
         node.on('close', function() {
             debug('Closing connection');
             connection.close();
-            // debug('Closing domain');
-            // d.dispose();
             debug('Closed');
         });
     });

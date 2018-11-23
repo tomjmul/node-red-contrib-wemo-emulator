@@ -1,59 +1,63 @@
 {
-    "name": "node-red-contrib-wemo-emulator",
-    "version": "0.6.0",
-    "main": "index.js",
-    "keywords": [
-        "node-red",
-        "wemo",
-        "emulator",
-        "amazon",
-        "echo",
-        "alexa"
-    ],
-    "scripts": {
-        "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha test --recursive --reporter spec"
-    },
-    "dependencies": {
-        "lodash": "^4.17.10",
-        "wemore": "^0.6.0"
-    },
-    "author": "@biddster",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/biddster/node-red-contrib-wemo-emulator.git"
-    },
-    "bugs": {
-        "url": "https://github.com/biddster/node-red-contrib-wemo-emulator/issues"
-    },
-    "node-red": {
-        "nodes": {
-            "wemo-emulator": "index.js"
-        }
-    },
-    "devDependencies": {
-        "eslint": "^5.0.0",
-        "eslint-config-biddster": "^0.6.0",
-        "eslint-config-prettier": "^2.9.0",
-        "mocha": "^5.2.0",
-        "node-red-contrib-mock-node": "^0.4.0",
-        "nyc": "^12.0.2",
-        "prettier": "^1.13.6"
-    },
-    "eslintConfig": {
-        "env": {
-            "es6": true,
-            "node": true,
-            "mocha": true
-        },
-        "extends": [
-            "eslint-config-biddster/es6-node",
-            "prettier"
-        ]
-    },
-    "prettier": {
-        "singleQuote": true,
-        "tabWidth": 4,
-        "printWidth": 96
+  "name": "node-red-contrib-wemo-emulator",
+  "version": "0.6.0",
+  "main": "index.js",
+  "keywords": [
+    "node-red",
+    "wemo",
+    "emulator",
+    "amazon",
+    "echo",
+    "alexa"
+  ],
+  "scripts": {
+    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha test --recursive --reporter spec"
+  },
+  "dependencies": {
+    "events": "^3.0.0",
+    "lodash": "^4.17.10",
+    "mewo": "^1.2.0",
+    "network": "^0.4.1",
+    "util": "^0.11.1",
+    "wemore": "^0.6.0"
+  },
+  "author": "@biddster",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biddster/node-red-contrib-wemo-emulator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/biddster/node-red-contrib-wemo-emulator/issues"
+  },
+  "node-red": {
+    "nodes": {
+      "wemo-emulator": "index.js"
     }
+  },
+  "devDependencies": {
+    "eslint": "^5.0.0",
+    "eslint-config-biddster": "^0.6.0",
+    "eslint-config-prettier": "^2.9.0",
+    "mocha": "^5.2.0",
+    "node-red-contrib-mock-node": "^0.4.0",
+    "nyc": "^12.0.2",
+    "prettier": "^1.13.6"
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "extends": [
+      "eslint-config-biddster/es6-node",
+      "prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 4,
+    "printWidth": 96
+  }
 }
